@@ -2,6 +2,7 @@ const express=require("express");
 const mongoose=require("mongoose");
 const cors=require("cors");
 const routes = require("./Routes/UserRoutes");
+const router = require("./Routes/PostRoutes");
 
 const app=express();
 
@@ -15,7 +16,10 @@ mongoose.connect("mongodb://localhost:27017/BlogAPP")
 app.use(express.json());
 app.use(cors())
 app.options("*",cors())
+app.use('/uploads', express.static('uploads'));
+
 app.use("/user",routes)
+app.use("/post",router)
 
 
 

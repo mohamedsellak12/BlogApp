@@ -1,7 +1,6 @@
 const User=require("../Models/User.js");
 const bcrypt=require("bcrypt")
 const jwt=require("jsonwebtoken");
-
 const blacklist=new Set()
 exports.register=async (req,res)=>{
     try{
@@ -15,6 +14,7 @@ exports.register=async (req,res)=>{
 
         const savedUser = await newUser.save();
         res.json(savedUser);
+        
     }catch(e){
         //console.error(e);
         res.status(500).json({message:e.message});
@@ -44,7 +44,7 @@ exports.login=async (req,res)=>{
     }
     // res.json(user);
    }catch(err){
-    res.status(500).json({message:err.message});
+    res.status(500).json({msg:"Oops! Something went wrong"});
    }
 }
 exports.updateUserPassword=async(req,res)=>{
@@ -111,4 +111,17 @@ exports.logout = async (req, res)=>{
         blacklist.add(token);
         res.status(200).json({ message: 'User logged out' });
     }
+}
+
+exports.deleteUser= async (req,res) => {
+  try{
+    const userDeleted=await User.findByIdAndDelete(req.params.id);
+    if(!userDeleted){
+      return res.status(404).json({message:"User not found"})
+    }
+    res.json({message: "User deleted successfully"})
+  }catch(e){
+    console.error(e.message);
+    res.status(500).json({message:e.message});
+  }
 }
