@@ -30,7 +30,12 @@ const userSchema = new Schema({
         type: String,
         enum: ['admin','user'],
         default:'user'
-       }
+       },
+       friends:[
+        {type:mongoose.Schema.Types.ObjectId, ref:'User', required:false , default:[]}
+       ],
+       resetPasswordToken: { type: String, default: null },
+       resetPasswordExpires: { type: Date, default: null },
     })
 
 

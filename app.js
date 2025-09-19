@@ -3,6 +3,9 @@ const mongoose=require("mongoose");
 const cors=require("cors");
 const routes = require("./Routes/UserRoutes");
 const router = require("./Routes/PostRoutes");
+const route = require("./Routes/CommentRoutes");
+const ConvRouter = require("./Routes/ConversationRoutes")
+const MessageRouter=require("./Routes/MessageRoutes")
 
 const app=express();
 
@@ -20,6 +23,9 @@ app.use('/uploads', express.static('uploads'));
 
 app.use("/user",routes)
 app.use("/post",router)
+app.use("/comment",route)
+app.use("/conversation",ConvRouter)
+app.use("/message",MessageRouter)
 
 
 

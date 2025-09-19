@@ -2,10 +2,16 @@ const mongoose= require("mongoose")
 
 const Schema=mongoose.Schema 
 const postSchema=new Schema({
-    title: { type: String, required: true },
+    title: { type: String, required: false },
     content: { type: String, required: true },
     photo: { type: String ,required: false },
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    likes:[
+        {type:mongoose.Schema.Types.ObjectId, ref:'User', required:false , default:[]}
+    ],
+    reports:[
+        {type:mongoose.Schema.Types.ObjectId, ref:'User', required:false , default:[]}
+    ],
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' , required: true },
 },{timestamps: true}
 
 
