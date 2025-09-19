@@ -1,0 +1,278 @@
+<div class="max-w-3xl mx-auto mt-8 ">
+
+    <h2 class="text-3xl font-bold mb-6 text-center">Your Posts</h2>
+    
+    <div *ngIf="posts.length===0" class="text-center text-gray-600">
+
+    </div>
+    <!-- Post Card -->
+    <div
+      *ngFor="let post of posts"
+      class="bg-white shadow max-h-100 overflow-y-auto rounded-lg mb-6 p-6 hover:shadow-lg transition"
+    >
+      <!-- Header (User Info + Date) -->
+      <div class="flex items-center mb-4 justify-between">
+        <img
+          *ngIf="post.userId?.photo"
+          [src]="post.userId.photo"
+          alt="User Avatar"
+          class="w-12 h-12 rounded-full"
+        />
+        <div class="ml-4">
+          <p class="text-sm font-semibold text-gray-800">{{ post.userId?._id===user.id ?"You" :post.userId?.nom  || 'Unknownw' }} {{ post.userId?._id===user.id ?" " :post.userId?.prenom   }}</p>
+          <p class="text-xs text-gray-500">{{ post.createdAt | date: 'medium' }}</p>
+        </div>
+
+        <!-- Options Dropdown -->
+        <div class="relative" *ngIf="post.userId?._id===user.id">
+          <button
+          class="text-gray-500 hover:text-gray-700"
+          (click)="toggleMenu(post._id)"
+        >
+          <i class="fa fa-ellipsis-v"></i>
+        </button>
+
+        <div
+         *ngIf="isMenuOpen(post._id)"
+          class="absolute right-0 bg-white border rounded shadow-md w-40 mt-2 z-10"
+        >
+          <button
+            class="w-full text-left px-4 py-2 hover:text-blue-600  text-sm text-gray-700"
+           (click)="openUpdateForm(post)"
+           (click)="toggleMenu(post._id)"
+           
+          >
+          <i class="fa fa-edit"></i> Edit
+            
+          </button>
+          <button
+            class="w-full text-left px-4 py-2 hover:text-red-600 text-sm text-gray-700"
+           (click)="Ondelete(post._id)"
+          >
+          <i class="fa fa-trash"></i> Delete
+            
+          </button>
+        </div>
+        </div>
+      </div>
+<form *ngIf="updateOpenId === post._id" class="bg-gray-50 p-4 rounded-lg shadow-md mt-4" (submit)="onSubmit(post._id,$event)" >
+  <label class="block mb-2 font-semibold text-gray-700" for="title">Title</label>
+  <input
+    id="title"
+    name="title"
+    type="text"
+    [(ngModel)]="updatedTitle"
+    #title="ngModel"
+    required
+    class="w-full border px-4 py-2 rounded mb-4"
+  />
+  <div *ngIf="title.invalid && title.touched" class="text-red-500 text-sm">
+    Title is required.
+  </div>
+
+  <label class="block mb-2 font-semibold text-gray-700" for="content">Content</label>
+  <textarea
+    id="content"
+    name="content"
+    [(ngModel)]="updatedContent"
+    #content="ngModel"
+    required
+    class="w-full border px-4 py-2 rounded mb-4"
+  ></textarea>
+  <div *ngIf="content.invalid && content.touched" class="text-red-500 text-sm">
+    Content is required.
+  </div>
+  <label class="block mb-2 font-semibold text-gray-700">Photo</label>
+  <input type="file" (change)="onSelectPhoto($event)" name="photo" class="mb-4" />
+  <div *ngIf="post.photo" class="mb-4">
+    <img
+      [src]="'http://localhost:3000/' + post.photo"
+      alt="Current Post Image"
+      class="rounded-lg w-full max-h-64 object-contain"
+    />
+  </div>
+
+  <div class="flex justify-end space-x-2">
+    <button
+      type="submit"
+
+      class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+    >
+      Save
+    </button>
+    <button
+      type="button"
+      (click)="closeUpdateForm()"
+      class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
+    >
+      Cancel
+    </button>
+  </div>
+</form>
+  
+      <!-- Post Content -->
+      <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ post.title }}</h3>
+      <p class="text-gray-700 mb-4">{{ post.content }}</p>
+       <!-- Comments Area -->
+       <div
+       *ngIf="isCommentAreaOpen(post._id)"
+       class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+     >
+       <div class="bg-white max-w-xl w-full p-6 rounded-lg shadow-lg">
+         <div class="flex items-center justify-between mb-4">
+           <h2 class="text-2xl font-bold">Comments ({{ numberOfcomments }})</h2>
+           <button class="hover:text-red-600" (click)="openCommentArea(post._id)">
+             <i class="fa fa-times"></i>
+           </button>
+         </div>
+     
+         <!-- Zone de commentaires défilables -->
+         <div class="overflow-y-auto max-h-80">
+           <div *ngIf="Comments.length === 0" class="flex items-start mb-4 space-x-4">
+             <p class="text-gray-500 text-xs">No comments yet.</p>
+           </div>
+     
+           <div *ngFor="let comment of Comments" class="flex items-start mb-4 space-x-4">
+             <!-- Contenu du commentaire -->
+             <div class="flex-1 bg-gray-100 p-3 rounded-lg shadow-sm">
+               <!-- Informations de l'utilisateur -->
+               <div class="flex items-center justify-between">
+                 <h6 class="text-sm font-semibold text-gray-800">
+                  <a class="hover:underline" routerLink="/dashboard/userProfile/{{ comment.userId?._id }}">
+                       
+                    {{ comment.userId?._id === user.id ? "You" : comment.userId?.nom || 'Unknown' }}
+                    {{ comment.userId?._id === user.id ? "" : comment.userId?.prenom }}
+                  </a>
+                   <span *ngIf="comment.createdAt!=comment.updatedAt">(edited at {{ comment.updatedAt | date:'short' }})</span>
+                 </h6>
+                 <p class="text-xs text-gray-500">{{ comment.createdAt | date: 'short' }}</p>
+               </div>
+     
+               <!-- Texte du commentaire -->
+               <p class="text-gray-700 mt-2 text-sm">{{ comment.content }}</p>
+     
+               <!-- Boutons d'action -->
+               <div class="flex space-x-4 text-xs text-gray-500 mt-2">
+                 <button class="hover:text-blue-600">
+                   <i class="fa fa-thumbs-up"></i> Like
+                 </button>
+                 <button class="hover:text-blue-600">
+                   <i class="fa fa-reply"></i> Reply
+                 </button>
+                 <button class="hover:text-blue-600" 
+                  (click)="openEditCommentPopup(comment)"
+                 *ngIf="user.id == post.userId._id || user.id == comment.userId._id">
+                   <i class="fa fa-edit"></i> Edit
+                 </button>
+                 <div
+                 *ngIf="isEditCommentPopupOpen"
+                 class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+                 >
+                 <div class="bg-white max-w-md w-full p-6 rounded-lg shadow-lg">
+                   <h2 class="text-lg font-bold mb-4">Edit Comment</h2>
+                   <form (submit)="onUpdateComment()">
+                     <div class="mb-4">
+                       <textarea
+                         id="editContent"
+                         name="editContent"
+                         [(ngModel)]="selectedComment.content"
+                         rows="4"
+                         required
+                         class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-200 resize-none"
+                         placeholder="Edit your comment here..."
+                       ></textarea>
+                     </div>
+                     <div class="flex justify-end space-x-2">
+                       <button
+                         type="button"
+                         class="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
+                         (click)="closeEditPopup()"
+                       >
+                         Cancel
+                       </button>
+                       <button
+                         type="submit"
+                         class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                       >
+                         Update
+                       </button>
+                     </div>
+                   </form>
+                 </div>
+                 </div>
+                 <button
+                   *ngIf="user.id == post.userId._id"
+                   class="hover:text-red-600"
+                   (click)="onDeleteComment(comment._id)"
+                 >
+                   <i class="fa fa-trash"></i> Delete
+                 </button>
+               </div>
+             </div>
+           </div>
+         </div>
+     
+         <!-- Zone d'ajout de commentaire fixe -->
+         <form (submit)="onAddComment(post._id)" class="pt-4 border-t mt-4">
+           <div class="mb-4">
+             <textarea
+               id="content"
+               name="content"
+               [(ngModel)]="Comment.content"
+               rows="3"
+               required
+               class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-200 resize-none"
+               placeholder="Write your comment here..."
+             ></textarea>
+           </div>
+           <button
+             type="submit"
+             class="bg-white-500 text-white px-6 py-2 rounded-lg hover:bg-gray-100 focus:outline-none"
+           >
+           <img src="send-4008.png" alt="">
+            
+           </button>
+         </form>
+       </div>
+     </div>
+  
+      <!-- Post Image -->
+      <div *ngIf="post.photo" class="mb-4">
+        <img
+          [src]="'http://localhost:3000/' + post.photo"
+          alt="Post Image"
+          class="rounded-lg w-full max-h-64 object-contain"
+        />
+      </div>
+      
+      <div *ngIf="post.photo" class="mt-2">
+        <a
+          class="text-blue-600 hover:underline"
+          [href]="'http://localhost:3000/' + post.photo"
+          target="_blank"
+        >
+          See the picture
+        </a>
+      </div>
+      
+      
+      
+  
+      <!-- Action Buttons -->
+      <div class="flex items-center justify-between text-sm text-gray-600">
+        <!-- <button class="flex items-center space-x-1 hover:text-blue-600">
+          <i class="fa fa-thumbs-up"></i>
+          <span>Like</span>
+        </button> -->
+        <button class="flex items-center space-x-1 hover:text-blue-600" (click)="openCommentArea(post._id)">
+          <i class="fa fa-comment"></i>
+          <span>Comment</span>
+        </button>
+        <!-- <button class="flex items-center space-x-1 hover:text-blue-600">
+          <i class="fa fa-share"></i>
+          <span>Share</span>
+        </button> -->
+      </div>
+    </div>
+  </div>
+  

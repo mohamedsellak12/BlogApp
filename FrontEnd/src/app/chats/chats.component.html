@@ -1,0 +1,60 @@
+<div class="p-4 bg-gray-100 min-h-screen">
+    <p class="text-lg font-semibold mb-4">Your Conversations </p>
+  
+    <!-- Afficher uniquement les conversations avec un message -->
+    <div *ngFor="let conv of conversations"  class="bg-white p-4 rounded-lg shadow-md mb-4 flex items-center space-x-4 hover:bg-gray-50 transition" 
+    >
+      <!-- Avatar des participants -->
+       <div *ngIf="conv.participants[1]._id!=user.id">
+
+           <button  routerLink="/dashboard/conversation/{{ conv.participants[1]._id }}">
+    
+               <div class="flex-shrink-0" >
+                   <div class="w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold">
+                     {{ conv.participants[1].nom.charAt(0) }}{{ conv.participants[1].prenom.charAt(0) }}
+                   </div>
+               </div>
+           </button>
+       </div>
+       <div *ngIf="conv.participants[0]._id!=user.id"  >
+
+        <button  routerLink="/dashboard/conversation/{{ conv.participants[0]._id }}">
+ 
+            <div class="flex-shrink-0 "  >
+                <div class="w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold">
+                  {{ conv.participants[0].nom.charAt(0) }}{{ conv.participants[0].prenom.charAt(0) }}
+                </div>
+            </div>
+        </button>
+    </div>
+
+       
+  
+      <!-- Infos sur la conversation -->
+      <div class="flex-1"  >
+        <h4 routerLink="/dashboard/conversation/{{ conv.participants[1]._id }}" class="text-gray-800 font-medium cursor-pointer" *ngIf="conv.participants[1]._id!=user.id">
+          {{ conv.participants[1].nom }} {{ conv.participants[1].prenom }}
+        </h4>
+        <h4 routerLink="/dashboard/conversation/{{ conv.participants[0]._id }}" class="text-gray-800 font-medium cursor-pointer" *ngIf="conv.participants[0]._id!=user.id">
+            {{ conv.participants[0].nom }} {{ conv.participants[0].prenom }}
+          </h4>
+        <p class="text-sm text-gray-500 truncate">{{ conv.lastMessage }}</p>
+      </div>
+  
+      <!-- Date de la dernière mise à jour -->
+      <div class="text-xs text-gray-400">
+        {{ conv.updatedAt | date: 'short' }}
+      </div >
+      <div>
+        <button (click)="toggleDeletePopup(conv._id)">
+          <i class="fa fa-ellipsis-v"></i>
+        </button>
+        <div *ngIf="isDeletePopupOpen(conv._id)" class="absolute right-3 bg-white border rounded shadow-md w-40 mt-2 z-10">
+          <button class=" w- text-left px-4 py-2 hover:text-red-600 text-sm text-gray-700" (click)="deleteConversation(conv._id)">
+            <i class="fa fa-trash"></i>  Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

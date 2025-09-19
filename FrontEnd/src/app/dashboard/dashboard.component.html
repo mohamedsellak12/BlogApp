@@ -1,0 +1,129 @@
+<div class="flex bg-gray-100">
+  <!-- Sidebar -->
+  <aside class="fixed inset-y-0 left-0 w-64 bg-blue-600 text-white">
+    <div class="p-4 text-center font-bold text-lg border-b border-blue-500 ">
+      
+      <h1   class="text-2xl font-bold p-3 text-white-800 ">
+        
+        <a routerLink="/dashboard/posts" class="block px-4 py-2">
+          <div class="flex-shrink-0 "  >
+            <div class="w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold">
+              {{ user.nom.charAt(0) }}{{user.prenom.charAt(0) }}
+            </div>
+        </div>
+        </a>
+        
+      </h1>
+    </div>
+    <hr>
+    <nav class="  mt-4">
+      <ul>
+        <li class="hover:bg-blue-500">
+          <a routerLink="/dashboard/posts" class="block px-4 py-2"><i class="fa fa-home"></i> Home</a>
+        </li>
+        <li class="hover:bg-blue-500">
+          <a routerLink="/dashboard/userProfile/{{ user.id }}" class="block px-4 py-2"> 
+            <i class="fa fa-user"></i>
+            <span> Profile</span>
+          </a>
+        </li>
+        <li class="hover:bg-blue-500">
+          <a  class="block px-4 py-2">
+            <i class="fa fa-cog"></i>
+            <span> Settings</span>
+          </a>
+        </li>
+        <li class="hover:bg-blue-500">
+          <a
+            href="#"
+            (click)="ShowPopup($event)"
+            class="block px-4 py-2 text-red-400"
+          >
+          <i class="fa fa-sign-out"></i>
+          <span> Logout</span>
+            
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="ml-64 flex-1 p-6">
+    <!-- Header -->
+    <header class="fixed top-0 left-64 right-0 flex items-center justify-between bg-white shadow p-4 rounded-lg">
+      <div class="flex items-center  w-full max-w-md bg-white rounded-lg border border-gray-300 shadow-sm ">
+       
+        <input
+          type="text"
+          [(ngModel)]="query"
+          (input)="onSearch()"
+          
+          placeholder="Search..."
+          class="flex-1 px-2 py-2 text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-300 rounded-r-lg"
+        />
+
+        <div class="px-4 ">
+          <button>
+            <i class="fa fa-search text-gray-400"></i>
+          </button>
+        </div>
+      </div>
+      
+      <div class=" flex items-center justify-between  ">
+        <button
+        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 m-3 "
+      >
+        <a routerLink="/dashboard/addpost"> <i class="fa-solid fa-plus"></i> </a>
+      </button>
+      <button
+        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+      >
+        <a routerLink="/dashboard/chats">
+          <i class="fa-brands fa-rocketchat"></i>
+        </a>
+      </button>
+      </div>
+    </header>
+    <div
+    *ngIf="searchUsers.length > 0"
+    class="fixed top-20 left-72 right-0  z-1000 bg-white border border-gray-300 rounded-lg shadow-lg w-96 z-50 ">
+    <div
+      *ngFor="let item of searchUsers"
+      class="p-2 hover:bg-gray-100 cursor-pointer "
+    >
+      <a routerLink="/dashboard/userProfile/{{item._id}}">
+        <span (click)="close()" class="font-medium text-gray-700">{{ item.nom || 'User' }} {{ item.prenom }}</span>
+      </a>
+    </div>
+  </div>
+
+    <!-- Logout Confirmation Popup -->
+    <div
+      *ngIf="openLogoutPopup"
+      class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+    >
+      <div class="bg-white p-6 rounded shadow-lg text-center">
+        <h2 class="text-lg font-bold mb-4">Confirm Logout</h2>
+        <p class="mb-6">Are you sure you want to log out?</p>
+        <button
+          (click)="logout()"
+          class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+        >
+          Logout
+        </button>
+        <button
+          (click)="ClosePopup()"
+          class="bg-gray-300 px-4 py-2 rounded ml-2 hover:bg-gray-400"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+
+    <!-- Content Section -->
+    <section class="mt-24  ">
+      <router-outlet></router-outlet>
+    </section>
+  </main>
+</div>

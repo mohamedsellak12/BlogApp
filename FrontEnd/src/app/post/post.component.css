@@ -1,0 +1,49 @@
+.comment-container {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    gap: 1rem;
+  }
+  
+  .comment-avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  
+  .comment-content {
+    background-color: #f3f4f6;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+  
+  .comment-text {
+    margin-top: 0.5rem;
+    color: #374151;
+    font-size: 0.875rem;
+  }
+  
+  .comment-actions {
+    margin-top: 0.5rem;
+    display: flex;
+    gap: 1rem;
+    font-size: 0.75rem;
+    color: #9ca3af;
+  }
+  
+  .comment-actions button:hover {
+    color: #2563eb;
+  }
+  textarea {
+    resize: none;
+  }
+  

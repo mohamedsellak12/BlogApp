@@ -1,0 +1,33 @@
+<nav class="bg-blue-600 text-white shadow-lg">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <!-- Logo -->
+      <a routerLink="/" class="text-lg font-bold">BlogApp</a>
+  
+      <!-- Links -->
+      <div class="flex space-x-4">
+        <!-- Links for Unauthenticated Users -->
+        <ng-container *ngIf="!chekToken">
+          <a
+            routerLink="/login"
+            class="px-3 py-2 rounded hover:bg-blue-500 transition-colors"
+            >Login</a
+          >
+          <a
+            routerLink="/register"
+            class="px-3 py-2 rounded hover:bg-blue-500 transition-colors"
+            >Register</a
+          >
+        </ng-container>
+  
+        <!-- Links for Authenticated Users -->
+        <ng-container *ngIf="chekToken">
+          <a
+            routerLink="/dashboard/posts"
+            class="px-3 py-2 rounded hover:bg-blue-500 transition-colors"
+            >Dashboard</a
+          >
+        </ng-container>
+      </div>
+    </div>
+  </nav>
+  

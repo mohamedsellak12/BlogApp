@@ -1,0 +1,174 @@
+<!-- <h1>{{ profile.message }}</h1> -->
+<div class="container mx-auto mt-10 max-w-lg">
+  <h2 class="text-2xl font-bold text-center mb-6">Update User Infos</h2>
+  <form  class="bg-white shadow-md rounded px-8 pt-6 pb-8" (submit)="updateUserInfos()">
+   
+    <div class="mb-4">
+      <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Nom</label>
+      <input
+        id="name"
+        type="text"
+        [value]="user.nom"
+        name="nom"
+        [(ngModel)]="user.nom"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        placeholder="Enter your name"
+      />
+    </div>
+    <div class="mb-4">
+      <label for="name"  class="block text-gray-700 text-sm font-bold mb-2">Prenom</label>
+      <input
+        id="name"
+        type="text"
+        [value]="user.prenom"
+        name="prenom"
+        [(ngModel)]="user.prenom"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        placeholder="Enter your name"
+      />
+    </div>
+
+  
+    <div class="mb-4">
+      <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+      <input
+        id="email"
+        type="email"
+        [value]="user.email"
+        name="email"
+        [(ngModel)]="user.email"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        placeholder="Enter your email"
+      />
+    </div>
+    <div class="flex items-center ">
+      <button
+        type="submit"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+      >
+        Update
+      </button>
+      <button
+      type="reset"
+      class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+    >
+      Reset
+    </button>
+    </div>
+
+  
+  </form>
+</div>
+
+
+<div class="container mx-auto mt-10 max-w-lg">
+    <h2 class="text-2xl font-bold text-center mb-6">Update User Password</h2>
+    <form  class="bg-white shadow-md rounded px-8 pt-6 pb-8" (submit)="updateUserPasword()">
+      <!-- currentPassword Field -->
+      <div class="mb-6">
+        <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Current Password</label>
+        <input
+          id="password"
+          [(ngModel)]="User.currentPassword"
+    
+          type="password"
+          name="password"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          placeholder="Enter a new password"
+        />
+      </div>
+  
+      <!-- Password Field -->
+      <div class="mb-6">
+        <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+        <input
+          id="password"
+          [(ngModel)]="User.newPassword"
+    
+          type="password"
+          name="password"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          placeholder="Enter a new password"
+        />
+      </div>
+      <div class="mb-6">
+        <label for="confirmPassword" class="block text-gray-700 text-sm font-bold mb-2">Confirm Password</label>
+        <input
+          id="confirmPassword"
+          [(ngModel)]="confirmPassword"
+          type="password"
+          name="confirmPassword"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          placeholder="Re-enter your password"
+        />
+      </div>
+  
+      <!-- Submit Button -->
+      <div class="flex items-center justify-between">
+        <button
+          type="submit"
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Update
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="container mx-auto mt-10 max-w-lg text-center">
+    <button
+    (click)="ShowPopup($event)"
+      class="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+    >
+      Delete Account
+    </button>
+    <div *ngIf="popup" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+      <div class="bg-white p-8 rounded-lg shadow-2xl w-11/12 sm:w-96">
+        <!-- Title -->
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">
+          Confirm Deleting Account
+        </h2>
+        <!-- Message -->
+        <p class="text-sm text-gray-600 mb-6">
+          Are you sure you want to delete your account? This action cannot be undone.
+        </p>
+        <!-- Form -->
+        <form (submit)="deleteUserAccount($event)">
+          <!-- Password Input -->
+          <div class="mb-4">
+            <label for="pw" class="block text-sm font-medium text-gray-700 mb-2">
+              Enter your password
+            </label>
+            <input
+              type="password"
+              name="password"
+              [(ngModel)]="password"
+              id="pw"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+              placeholder="Password"
+            />
+          </div>
+          <!-- Buttons -->
+          <div class="flex justify-end space-x-2">
+            <!-- Cancel Button -->
+            <button
+              (click)="ClosePopup()"
+              type="button"
+              class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 focus:ring-2 focus:ring-gray-400"
+            >
+              Cancel
+            </button>
+            <!-- Delete Button -->
+            <button
+              class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 focus:ring-2 focus:ring-red-400"
+              type="submit"
+            >
+              Delete
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+
+  </div>
+

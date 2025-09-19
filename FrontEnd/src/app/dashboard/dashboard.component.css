@@ -1,0 +1,26 @@
+aside{
+    position: relative fixed;
+}
+img {
+    object-fit: cover;
+
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+
+  :root {
+    --bg-color:rgb(255, 255, 255);
+    --text-color:  rgb(0, 0, 0);
+  }
+
+  .dark-mode {
+    --bg-color: black;
+    --text-color: white;
+  }
+  .section{
+    background-color: var(--bg-color);
+    color: var(--text-color);
+  }

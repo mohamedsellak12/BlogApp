@@ -1,0 +1,85 @@
+<div class="flex h-screen bg-gray-100">
+    <!-- Sidebar -->
+    <div class="w-64 bg-blue-800 text-white p-6">
+      <h2 class="text-2xl font-bold text-center mb-8">Admin Dashboard</h2>
+      <ul>
+        <li>
+          <a href="#" class="block py-2 px-4 rounded hover:bg-blue-700">Dashboard</a>
+        </li>
+        <li>
+          <a href="#" class="block py-2 px-4 rounded hover:bg-blue-700">Users</a>
+        </li>
+        <li>
+          <a href="#" class="block py-2 px-4 rounded hover:bg-blue-700">Settings</a>
+        </li>
+        <li>
+          <a href="#" class="block py-2 px-4 rounded hover:bg-blue-700">Reports</a>
+        </li>
+        <li (click)="logout()">
+            <a href="#" class="block py-2 px-4 text-red-500 rounded hover:bg-red-500 hover:text-white ">
+                Logout
+              </a>
+              
+        </li>
+      </ul>
+    </div>
+  
+    <!-- Main Content -->
+    <div class="flex-1 p-6">
+      <!-- Page Title -->
+      <h1 class="text-3xl font-bold text-gray-900 mb-6">Welcome to the Admin Dashboard</h1>
+  
+      <!-- Stats Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+        <!-- Stat Card 1 -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="text-xl font-semibold text-gray-800">Total Users</h3>
+          <p class="text-4xl font-bold text-blue-600">1,200</p>
+        </div>
+        
+        <!-- Stat Card 2 -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="text-xl font-semibold text-gray-800">New Orders</h3>
+          <p class="text-4xl font-bold text-green-600">150</p>
+        </div>
+  
+        <!-- Stat Card 3 -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="text-xl font-semibold text-gray-800">Active Subscriptions</h3>
+          <p class="text-4xl font-bold text-yellow-600">45</p>
+        </div>
+      </div>
+  
+      <!-- Content Section -->
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4">Recent Activity</h2>
+        <table class="min-w-full bg-white">
+          <thead>
+            <tr>
+              <th class="py-2 px-4 border-b">User</th>
+              <th class="py-2 px-4 border-b">Action</th>
+              <th class="py-2 px-4 border-b">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="py-2 px-4 border-b">John Doe</td>
+              <td class="py-2 px-4 border-b">Updated Profile</td>
+              <td class="py-2 px-4 border-b">2024-12-01</td>
+            </tr>
+            <tr>
+              <td class="py-2 px-4 border-b">Jane Smith</td>
+              <td class="py-2 px-4 border-b">Created Order</td>
+              <td class="py-2 px-4 border-b">2024-12-02</td>
+            </tr>
+            <tr>
+              <td class="py-2 px-4 border-b">Mark Johnson</td>
+              <td class="py-2 px-4 border-b">Subscribed to Newsletter</td>
+              <td class="py-2 px-4 border-b">2024-12-03</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
